@@ -1,4 +1,4 @@
-package org.example.demo.coincapclient.rest.response;
+package org.example.demo.web.rest.dto.response;
 
 import java.util.List;
 

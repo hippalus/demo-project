@@ -38,11 +38,11 @@ public final class RequestQueryParamBuilder {
 
   @SuppressWarnings("unchecked")
   private static String formatValue(Object value) {
-    if (value instanceof LocalDateTime) {
-      return formatDateValue((LocalDateTime) value);
+    if (value instanceof LocalDateTime dateTime) {
+      return formatDateValue(dateTime);
     }
-    if (value instanceof Collection) {
-      return formatCollectionValue((Collection<Object>) value);
+    if (value instanceof Collection collection) {
+      return formatCollectionValue(collection);
     }
     return value.toString();
   }

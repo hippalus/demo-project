@@ -22,13 +22,13 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
   @Test
   void shouldRetrieveAssets() {
     //given:
-    final var retrieveRequest = new AssetsRetrieveRequest();
+    final var retrieveRequest = AssetsRetrieveRequest.builder().build();
     //when:
     final AssetsResponse assets = assetsAdapter.retrieve(retrieveRequest);
     //then:
     Assertions.assertThat(assets).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotEmpty();
+    Assertions.assertThat(assets.data()).isNotNull();
+    Assertions.assertThat(assets.data()).isNotEmpty();
   }
 
   @Test
@@ -42,8 +42,8 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     final AssetsResponse assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotNull();
-    Assertions.assertThat(assets.getData().size()).isEqualTo(2000);
+    Assertions.assertThat(assets.data()).isNotNull();
+    Assertions.assertThat(assets.data()).hasSize(2000);
   }
 
   @Test
@@ -57,8 +57,8 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     final AssetsResponse assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotEmpty();
+    Assertions.assertThat(assets.data()).isNotNull();
+    Assertions.assertThat(assets.data()).isNotEmpty();
   }
 
   @Test
@@ -71,9 +71,9 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     final AssetsResponse assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotEmpty();
-    Assertions.assertThat(assets.getData().size()).isEqualTo(2);
+    Assertions.assertThat(assets.data()).isNotNull();
+    Assertions.assertThat(assets.data()).isNotEmpty();
+    Assertions.assertThat(assets.data()).hasSize(2);
   }
 
   @Test
@@ -87,7 +87,7 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     final AssetsResponse assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
-    Assertions.assertThat(assets.getData()).isEmpty();
+    Assertions.assertThat(assets.data()).isEmpty();
   }
 
   @Test
@@ -100,8 +100,8 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     final AssetsResponse assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotNull();
-    Assertions.assertThat(assets.getData()).isNotEmpty();
+    Assertions.assertThat(assets.data()).isNotNull();
+    Assertions.assertThat(assets.data()).isNotEmpty();
   }
 
   @Test
@@ -112,35 +112,33 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     final MonoAssetResponse asset = assetsAdapter.retrieveById(id);
     //then:
     Assertions.assertThat(asset).isNotNull();
-    Assertions.assertThat(asset.getData()).isNotNull();
-    Assertions.assertThat(asset.getData()).hasNoNullFieldsOrProperties();
+    Assertions.assertThat(asset.data()).isNotNull();
+    Assertions.assertThat(asset.data()).hasNoNullFieldsOrProperties();
   }
 
   @Test
   void shouldRetrieveAssetsHistory() {
     //given:
     final var id = "bitcoin";
-    final AssetHistoryRequest historyRequest = AssetHistoryRequest.builder()
-        .interval("m1")
-        .build();
+    final AssetHistoryRequest historyRequest = new AssetHistoryRequest("m1");
     //when:
     final AssetHistoryResponse history = assetsAdapter.retrieveHistory(id, historyRequest);
     //then:
     Assertions.assertThat(history).isNotNull();
-    Assertions.assertThat(history.getData()).isNotNull();
-    Assertions.assertThat(history.getData()).isNotEmpty();
+    Assertions.assertThat(history.data()).isNotNull();
+    Assertions.assertThat(history.data()).isNotEmpty();
   }
 
   @Test
   void shouldRetrieveAssetMarkets() {
     //given:
     final var id = "bitcoin";
-    final AssetMarketsRequest marketsRequest = AssetMarketsRequest.builder().build();
+    final AssetMarketsRequest marketsRequest = new AssetMarketsRequest();
     //when:
     final AssetMarketsResponse markets = assetsAdapter.retrieveAssetMarkets(id, marketsRequest);
     //then:
     Assertions.assertThat(markets).isNotNull();
-    Assertions.assertThat(markets.getData()).isNotNull();
-    Assertions.assertThat(markets.getData()).isNotEmpty();
+    Assertions.assertThat(markets.data()).isNotNull();
+    Assertions.assertThat(markets.data()).isNotEmpty();
   }
 }

@@ -1,7 +1,7 @@
-package org.example.demo.domain.service;
+package org.example.demo.service;
 
 import java.util.List;
-import org.example.demo.domain.model.Asset;
+import org.example.demo.model.Asset;
 
 public interface AssetService {
 
@@ -11,5 +11,5 @@ public interface AssetService {
 
   void save(List<Asset> assetList);
 
-  void save(Asset assetList);
+  Asset save(Asset assetList);
 }

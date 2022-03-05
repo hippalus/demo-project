@@ -7,6 +7,8 @@ spring:
     jdbc:
       repositories:
         enabled: true
+  mvc:
+    throw-exception-if-no-handler-found: true
   datasource:
     url: jdbc:h2:mem:demoprojectdb
     username: root
@@ -24,11 +26,24 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  sql:
+    init:
+      schema-locations: classpath:/schema.sql
 
 server:
   port: 8080
 
-adapters:
-  assets:
-    retryAttempts: 5
-    retryDelay: 2000
+coincap-client:
+  request-options:
+    access-token: 5859461c-df0a-42b3-a0ba-14410c4fd2b6
+    encoding: gzip
+    base-url: https://api.coincap.io/v2
+  adapters:
+    assets:
+      retry-attempts: 5
+      retry-delay: 2000
+
+
+app:
+  scheduled:
+    fix-rate: 60000

@@ -36,11 +36,11 @@ public class HttpClientConfig {
 
   @Bean
   public RestTemplate restTemplate() {
-    final RestTemplate restTemplate=new RestTemplateBuilder()
+    final RestTemplate restTemplate = new RestTemplateBuilder()
         .requestFactory(this::clientHttpRequestFactory)
         .errorHandler(new RestTemplateResponseErrorHandler())
         .build();
-    // restTemplate.setErrorHandler(new RestTemplateResponseErrorHandler());
+    restTemplate.setErrorHandler(new RestTemplateResponseErrorHandler());
     return restTemplate;
   }
 

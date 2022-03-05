@@ -1,15 +1,14 @@
-package org.example.demo.domain.web.rest.controller;
+package org.example.demo.web.rest.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.example.demo.domain.model.Asset;
-import org.example.demo.domain.service.AssetService;
-import org.example.demo.domain.web.rest.dto.res.AssetResponse;
-import org.example.demo.domain.web.rest.dto.res.AssetsResponse;
+import org.example.demo.model.Asset;
+import org.example.demo.service.AssetService;
+import org.example.demo.web.rest.dto.response.AssetResponse;
+import org.example.demo.web.rest.dto.response.AssetsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,7 @@ public class AssetController {
   private final AssetService assetService;
 
   @GetMapping
-  public ResponseEntity<AssetsResponse> retrieveLastNAssets(@RequestParam("size") @NotNull @Positive Integer size) {
+  public ResponseEntity<AssetsResponse> retrieveLastNAssets(@RequestParam("lastN") @NotNull @Positive Integer size) {
     final List<Asset> assets = assetService.retrieveLastNAssets(size);
     final AssetsResponse assetsResponse = toResponse(assets);
     return ResponseEntity.ok(assetsResponse);
@@ -40,9 +39,7 @@ public class AssetController {
   }
 
   private AssetsResponse toResponse(final List<Asset> assets) {
-    final List<AssetResponse> assetResponseList = assets.stream()
-        .map(AssetResponse::fromModel)
-        .collect(Collectors.toList());
+    List<AssetResponse> assetResponseList = AssetResponse.fromModel(assets);
     return new AssetsResponse(assetResponseList);
   }
 

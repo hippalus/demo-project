@@ -31,8 +31,8 @@ public class AssetsAdapter extends BaseAdapter {
 
   @Retryable(
       value = {Exception.class},
-      maxAttemptsExpression = "${adapters.assets.retryAttempts}",
-      backoff = @Backoff(delayExpression = "${adapters.assets.retryDelay}")
+      maxAttemptsExpression = "${coincap-client.adapters.assets.retry-attempts}",
+      backoff = @Backoff(delayExpression = "${coincap-client.adapters.assets.retry-delay}")
   )
   public AssetsResponse retrieve(final AssetsRetrieveRequest request) {
     final String queryParam = RequestQueryParamBuilder.buildQueryParam(request);
@@ -55,8 +55,8 @@ public class AssetsAdapter extends BaseAdapter {
 
   @Retryable(
       value = {Exception.class},
-      maxAttemptsExpression = "${adapters.assets.retryAttempts}",
-      backoff = @Backoff(delayExpression = "${adapters.assets.retryDelay}")
+      maxAttemptsExpression = "${coincap-client.adapters.assets.retry-attempts}",
+      backoff = @Backoff(delayExpression = "${coincap-client.adapters.assets.retry-delay}")
   )
   public MonoAssetResponse retrieveById(final String id) {
     final String path = ASSETS + DELIMITER + Objects.requireNonNull(id);
@@ -78,8 +78,8 @@ public class AssetsAdapter extends BaseAdapter {
 
   @Retryable(
       value = {Exception.class},
-      maxAttemptsExpression = "${adapters.assets.retryAttempts}",
-      backoff = @Backoff(delayExpression = "${adapters.assets.retryDelay}")
+      maxAttemptsExpression = "${coincap-client.adapters.assets.retry-attempts}",
+      backoff = @Backoff(delayExpression = "${coincap-client.adapters.assets.retry-delay}")
   )
   public AssetHistoryResponse retrieveHistory(final String id, final AssetHistoryRequest request) {
     final String validId = Objects.requireNonNull(id);
@@ -103,8 +103,8 @@ public class AssetsAdapter extends BaseAdapter {
 
   @Retryable(
       value = {Exception.class},
-      maxAttemptsExpression = "${adapters.assets.retryAttempts}",
-      backoff = @Backoff(delayExpression = "${adapters.assets.retryDelay}")
+      maxAttemptsExpression = "${coincap-client.adapters.assets.retry-attempts}",
+      backoff = @Backoff(delayExpression = "${coincap-client.adapters.assets.retry-delay}")
   )
   public AssetMarketsResponse retrieveAssetMarkets(final String id, AssetMarketsRequest request) {
     final String validId = Objects.requireNonNull(id);
