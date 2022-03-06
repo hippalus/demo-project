@@ -10,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.demo.model.Asset;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 @RequiredArgsConstructor
-public class CustomAssetRepositoryJdbcTemplateAdapter implements CustomAssetRepository {
+public class CustomAssetRepositoryJdbcTemplateImpl implements CustomAssetRepository {
 
   private static final String SQL_ASSET_INSERT = """
       INSERT INTO "ASSET"  

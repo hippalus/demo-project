@@ -57,13 +57,13 @@ public class RatesAdapter extends BaseAdapter {
   }
 
   @Recover
-  public AssetResponse retrieveById(CoinCapApiException e, final String id) {
+  public RateResponse retrieveById(CoinCapApiException e, final String id) {
     log.error("Couldn't connect to coincap api to do retrieveById for {}", id, e);
     throw e;
   }
 
   @Recover
-  public AssetResponse retrieveById(final Exception e, final String id) {
+  public RateResponse retrieveById(final Exception e, final String id) {
     log.error("Couldn't connect to coincap api to do retrieveById for {}", id, e);
     throw new CoinCapApiException(COINCAP_API_RATES_CLIENT_ERROR);
   }
