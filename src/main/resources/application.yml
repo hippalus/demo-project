@@ -51,6 +51,9 @@ coincap-client:
     candles:
       retry-attempts: 5
       retry-delay: 2000
+    exchanges:
+      retry-attempts: 5
+      retry-delay: 2000
 app:
   scheduled:
     fix-rate: 60000
