@@ -4,9 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.demo.coincapclient.CoinCap;
 import org.example.demo.coincapclient.rest.request.AssetsRetrieveRequest;
-import org.example.demo.coincapclient.rest.response.AssetResponse;
+import org.example.demo.coincapclient.rest.response.Asset;
 import org.example.demo.coincapclient.rest.response.AssetsResponse;
-import org.example.demo.model.Asset;
 import org.example.demo.service.AssetService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,7 +30,7 @@ public class AssetPersistentTask {
       if (response.data().isEmpty()) {
         break;
       }
-      final List<Asset> assetList = toModel(response);
+      final List<org.example.demo.model.Asset> assetList = toModel(response);
       assetService.save(assetList);
       offset += LIMIT;
     }
@@ -44,27 +43,27 @@ public class AssetPersistentTask {
         .build();
   }
 
-  private List<Asset> toModel(AssetsResponse response) {
+  private List<org.example.demo.model.Asset> toModel(AssetsResponse response) {
     return response.data()
         .stream()
         .map(this::toModel)
         .toList();
   }
 
-  private Asset toModel(AssetResponse assetResponse) {
-    return Asset.builder()
-        .assetId(assetResponse.id())
-        .changePercent24Hr(assetResponse.changePercent24Hr())
-        .explorer(assetResponse.explorer())
-        .marketCapUsd(assetResponse.marketCapUsd())
-        .maxSupply(assetResponse.maxSupply())
-        .name(assetResponse.name())
-        .priceUsd(assetResponse.priceUsd())
-        .supply(assetResponse.supply())
-        .rank(assetResponse.rank())
-        .volumeUsd24Hr(assetResponse.volumeUsd24Hr())
-        .vwap24Hr(assetResponse.vwap24Hr())
-        .symbol(assetResponse.symbol())
+  private org.example.demo.model.Asset toModel(Asset asset) {
+    return org.example.demo.model.Asset.builder()
+        .assetId(asset.id())
+        .changePercent24Hr(asset.changePercent24Hr())
+        .explorer(asset.explorer())
+        .marketCapUsd(asset.marketCapUsd())
+        .maxSupply(asset.maxSupply())
+        .name(asset.name())
+        .priceUsd(asset.priceUsd())
+        .supply(asset.supply())
+        .rank(asset.rank())
+        .volumeUsd24Hr(asset.volumeUsd24Hr())
+        .vwap24Hr(asset.vwap24Hr())
+        .symbol(asset.symbol())
         .build();
   }
 }

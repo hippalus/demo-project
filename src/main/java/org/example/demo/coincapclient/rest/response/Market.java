@@ -3,12 +3,16 @@ package org.example.demo.coincapclient.rest.response;
 import java.math.BigDecimal;
 
 public record Market(String exchangeId,
-                     String baseId,
-                     String quoteId,
+                     String rank,
                      String baseSymbol,
+                     String baseId,
                      String quoteSymbol,
-                     BigDecimal volumeUsd24Hr,
+                     String quoteId,
+                     BigDecimal priceQuote,
                      BigDecimal priceUsd,
-                     BigDecimal volumePercent) {
-
+                     BigDecimal volumeUsd24Hr,
+                     BigDecimal percentExchangeVolume,
+                     Long tradesCount24Hr,
+                     Long updated) {
+  
 }

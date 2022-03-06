@@ -11,7 +11,7 @@ import org.example.demo.coincapclient.rest.request.common.RequestQueryParamBuild
 import org.example.demo.coincapclient.rest.response.AssetHistoryResponse;
 import org.example.demo.coincapclient.rest.response.AssetMarketsResponse;
 import org.example.demo.coincapclient.rest.response.AssetsResponse;
-import org.example.demo.coincapclient.rest.response.MonoAssetResponse;
+import org.example.demo.coincapclient.rest.response.AssetResponse;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
@@ -58,19 +58,19 @@ public class AssetsAdapter extends BaseAdapter {
       maxAttemptsExpression = "${coincap-client.adapters.assets.retry-attempts}",
       backoff = @Backoff(delayExpression = "${coincap-client.adapters.assets.retry-delay}")
   )
-  public MonoAssetResponse retrieveById(final String id) {
+  public AssetResponse retrieveById(final String id) {
     final String path = ASSETS + DELIMITER + Objects.requireNonNull(id);
-    return doGet(path, MonoAssetResponse.class);
+    return doGet(path, AssetResponse.class);
   }
 
   @Recover
-  public MonoAssetResponse retrieveById(CoinCapApiException e, final String id) {
+  public AssetResponse retrieveById(CoinCapApiException e, final String id) {
     log.error("Couldn't connect to coincap api to do retrieveById for {}", id, e);
     throw e;
   }
 
   @Recover
-  public MonoAssetResponse retrieveById(final Exception e, final String id) {
+  public AssetResponse retrieveById(final Exception e, final String id) {
     log.error("Couldn't connect to coincap api to do retrieveById for {}", id, e);
     throw new CoinCapApiException(COINCAP_API_ASSETS_CLIENT_ERROR);
   }

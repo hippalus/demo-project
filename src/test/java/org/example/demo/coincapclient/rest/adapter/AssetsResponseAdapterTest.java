@@ -1,19 +1,18 @@
-package org.example.demo.coincapclient.adapter;
+package org.example.demo.coincapclient.rest.adapter;
 
 import java.util.Set;
 import org.assertj.core.api.Assertions;
-import org.example.demo.coincapclient.rest.adapter.AssetsAdapter;
 import org.example.demo.coincapclient.rest.request.AssetHistoryRequest;
 import org.example.demo.coincapclient.rest.request.AssetMarketsRequest;
 import org.example.demo.coincapclient.rest.request.AssetsRetrieveRequest;
 import org.example.demo.coincapclient.rest.response.AssetHistoryResponse;
 import org.example.demo.coincapclient.rest.response.AssetMarketsResponse;
 import org.example.demo.coincapclient.rest.response.AssetsResponse;
-import org.example.demo.coincapclient.rest.response.MonoAssetResponse;
+import org.example.demo.coincapclient.rest.response.AssetResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class AssetsResponseAdapterTest extends BaseIntegrationTest {
+class AssetsResponseAdapterTest extends AbstractIntegrationTest {
 
 
   @Autowired
@@ -109,7 +108,7 @@ class AssetsResponseAdapterTest extends BaseIntegrationTest {
     //given:
     final var id = "bitcoin";
     //when:
-    final MonoAssetResponse asset = assetsAdapter.retrieveById(id);
+    final AssetResponse asset = assetsAdapter.retrieveById(id);
     //then:
     Assertions.assertThat(asset).isNotNull();
     Assertions.assertThat(asset.data()).isNotNull();
