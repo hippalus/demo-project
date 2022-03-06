@@ -1,5 +1,5 @@
 package org.example.demo.coincapclient.rest.response;
 
-public record AssetResponse(Asset data, Long timestamp) {
+public record AssetResponse(AssetRecord data, Long timestamp) {
 
 }
