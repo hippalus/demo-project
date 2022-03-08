@@ -1,0 +1,11 @@
+version: '3.2'
+services:
+
+  demo-project-habip:
+    image: demo-project-habip:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: demo-project-habip
+    ports:
+      - "8080:8080"

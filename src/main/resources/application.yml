@@ -29,6 +29,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      settings:
+        web-allow-others: true
   sql:
     init:
       schema-locations: classpath:/schema.sql
