@@ -1,12 +1,12 @@
 package org.example.demo.coincapclient.rest.adapter;
 
 import org.assertj.core.api.Assertions;
-import org.example.demo.coincapclient.rest.response.ExchangeResponse;
-import org.example.demo.coincapclient.rest.response.ExchangesResponse;
+import org.example.demo.IT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class ExchangesAdapterTest extends AbstractIntegrationTest {
+@IT
+class ExchangesAdapterIT {
 
   @Autowired
   private ExchangesAdapter exchangesAdapter;
@@ -14,7 +14,7 @@ class ExchangesAdapterTest extends AbstractIntegrationTest {
   @Test
   void shouldRetrieveExchanges() {
     //when:
-    ExchangesResponse exchanges = exchangesAdapter.retrieve();
+    var exchanges = exchangesAdapter.retrieve();
     //then:
     Assertions.assertThat(exchanges).isNotNull();
     Assertions.assertThat(exchanges.data()).isNotNull();
@@ -26,7 +26,7 @@ class ExchangesAdapterTest extends AbstractIntegrationTest {
     //given:
     final var id = "kraken";
     //when:
-    final ExchangeResponse exchange = exchangesAdapter.retrieveById(id);
+    final var exchange = exchangesAdapter.retrieveById(id);
     //then:
     Assertions.assertThat(exchange).isNotNull();
     Assertions.assertThat(exchange.data()).isNotNull();

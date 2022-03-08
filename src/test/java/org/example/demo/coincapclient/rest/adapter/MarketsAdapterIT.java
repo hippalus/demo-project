@@ -1,12 +1,13 @@
 package org.example.demo.coincapclient.rest.adapter;
 
 import org.assertj.core.api.Assertions;
+import org.example.demo.IT;
 import org.example.demo.coincapclient.rest.request.MarketsRetrieveRequest;
-import org.example.demo.coincapclient.rest.response.MarketsResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class MarketsAdapterTest extends AbstractIntegrationTest {
+@IT
+class MarketsAdapterIT {
 
   @Autowired
   private MarketsAdapter marketsAdapter;
@@ -16,7 +17,7 @@ class MarketsAdapterTest extends AbstractIntegrationTest {
     //given:
     final var retrieveRequest = MarketsRetrieveRequest.builder().build();
     //when:
-    final MarketsResponse markets = marketsAdapter.retrieve(retrieveRequest);
+    final var markets = marketsAdapter.retrieve(retrieveRequest);
     //then:
     Assertions.assertThat(markets).isNotNull();
     Assertions.assertThat(markets.data()).isNotNull();
@@ -32,7 +33,7 @@ class MarketsAdapterTest extends AbstractIntegrationTest {
         .offset(1)
         .build();
     //when:
-    final MarketsResponse markets = marketsAdapter.retrieve(retrieveRequest);
+    final var markets = marketsAdapter.retrieve(retrieveRequest);
     //then:
     Assertions.assertThat(markets).isNotNull();
     Assertions.assertThat(markets.data()).isNotNull();
@@ -49,7 +50,7 @@ class MarketsAdapterTest extends AbstractIntegrationTest {
         .offset(1)
         .build();
     //when:
-    final MarketsResponse markets = marketsAdapter.retrieve(retrieveRequest);
+    final var markets = marketsAdapter.retrieve(retrieveRequest);
     //then:
     Assertions.assertThat(markets).isNotNull();
     Assertions.assertThat(markets.data()).isNotNull();

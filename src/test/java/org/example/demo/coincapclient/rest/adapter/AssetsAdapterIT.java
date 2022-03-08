@@ -2,17 +2,15 @@ package org.example.demo.coincapclient.rest.adapter;
 
 import java.util.Set;
 import org.assertj.core.api.Assertions;
+import org.example.demo.IT;
 import org.example.demo.coincapclient.rest.request.AssetHistoryRequest;
 import org.example.demo.coincapclient.rest.request.AssetMarketsRequest;
 import org.example.demo.coincapclient.rest.request.AssetsRetrieveRequest;
-import org.example.demo.coincapclient.rest.response.AssetHistoryResponse;
-import org.example.demo.coincapclient.rest.response.AssetMarketsResponse;
-import org.example.demo.coincapclient.rest.response.AssetsResponse;
-import org.example.demo.coincapclient.rest.response.AssetResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class AssetsResponseAdapterTest extends AbstractIntegrationTest {
+@IT
+class AssetsAdapterIT {
 
 
   @Autowired
@@ -23,7 +21,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
     //given:
     final var retrieveRequest = AssetsRetrieveRequest.builder().build();
     //when:
-    final AssetsResponse assets = assetsAdapter.retrieve(retrieveRequest);
+    final var assets = assetsAdapter.retrieve(retrieveRequest);
     //then:
     Assertions.assertThat(assets).isNotNull();
     Assertions.assertThat(assets.data()).isNotNull();
@@ -38,7 +36,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
         .limit(2000)
         .build();
     //when:
-    final AssetsResponse assets = assetsAdapter.retrieve(request);
+    final var assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
     Assertions.assertThat(assets.data()).isNotNull();
@@ -53,7 +51,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
         .limit(2000)
         .build();
     //when:
-    final AssetsResponse assets = assetsAdapter.retrieve(request);
+    final var assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
     Assertions.assertThat(assets.data()).isNotNull();
@@ -67,7 +65,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
         .ids(Set.of("bitcoin", "ethereum"))
         .build();
     //when:
-    final AssetsResponse assets = assetsAdapter.retrieve(request);
+    final var assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
     Assertions.assertThat(assets.data()).isNotNull();
@@ -83,7 +81,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
         .limit(2000)
         .build();
     //when:
-    final AssetsResponse assets = assetsAdapter.retrieve(request);
+    final var assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
     Assertions.assertThat(assets.data()).isEmpty();
@@ -96,7 +94,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
         .search("bitcoin")
         .build();
     //when:
-    final AssetsResponse assets = assetsAdapter.retrieve(request);
+    final var assets = assetsAdapter.retrieve(request);
     //then:
     Assertions.assertThat(assets).isNotNull();
     Assertions.assertThat(assets.data()).isNotNull();
@@ -108,7 +106,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
     //given:
     final var id = "bitcoin";
     //when:
-    final AssetResponse asset = assetsAdapter.retrieveById(id);
+    final var asset = assetsAdapter.retrieveById(id);
     //then:
     Assertions.assertThat(asset).isNotNull();
     Assertions.assertThat(asset.data()).isNotNull();
@@ -119,9 +117,9 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
   void shouldRetrieveAssetsHistory() {
     //given:
     final var id = "bitcoin";
-    final AssetHistoryRequest historyRequest = new AssetHistoryRequest("m1");
+    final var historyRequest = new AssetHistoryRequest("m1");
     //when:
-    final AssetHistoryResponse history = assetsAdapter.retrieveHistory(id, historyRequest);
+    final var history = assetsAdapter.retrieveHistory(id, historyRequest);
     //then:
     Assertions.assertThat(history).isNotNull();
     Assertions.assertThat(history.data()).isNotNull();
@@ -134,7 +132,7 @@ class AssetsResponseAdapterTest extends AbstractIntegrationTest {
     final var id = "bitcoin";
     final AssetMarketsRequest marketsRequest = new AssetMarketsRequest();
     //when:
-    final AssetMarketsResponse markets = assetsAdapter.retrieveAssetMarkets(id, marketsRequest);
+    final var markets = assetsAdapter.retrieveAssetMarkets(id, marketsRequest);
     //then:
     Assertions.assertThat(markets).isNotNull();
     Assertions.assertThat(markets.data()).isNotNull();

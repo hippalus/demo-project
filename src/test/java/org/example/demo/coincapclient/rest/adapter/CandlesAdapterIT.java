@@ -1,12 +1,13 @@
 package org.example.demo.coincapclient.rest.adapter;
 
 import org.assertj.core.api.Assertions;
+import org.example.demo.IT;
 import org.example.demo.coincapclient.rest.request.CandlesRetrieveRequest;
-import org.example.demo.coincapclient.rest.response.CandlesResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class CandlesAdapterTest extends AbstractIntegrationTest {
+@IT
+class CandlesAdapterIT {
 
   @Autowired
   private CandlesAdapter candlesAdapter;
@@ -26,7 +27,7 @@ class CandlesAdapterTest extends AbstractIntegrationTest {
         .quoteId("bitcoin")
         .build();
     //when:
-    final CandlesResponse candles = candlesAdapter.retrieve(retrieveRequest);
+    final var candles = candlesAdapter.retrieve(retrieveRequest);
     //then:
     Assertions.assertThat(candles).isNotNull();
     Assertions.assertThat(candles.data()).isNotNull();

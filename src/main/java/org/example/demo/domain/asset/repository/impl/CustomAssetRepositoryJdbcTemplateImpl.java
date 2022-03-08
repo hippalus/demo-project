@@ -9,56 +9,63 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.demo.domain.asset.model.Asset;
 import org.example.demo.domain.asset.repository.CustomAssetRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
 public class CustomAssetRepositoryJdbcTemplateImpl implements CustomAssetRepository {
 
   private static final String SQL_ASSET_INSERT = """
-      INSERT INTO ASSET 
-      ("ASSET_ID", "CHANGE_PERCENT24_HR","CREATED_AT", "EXPLORER", "MARKET_CAP_USD", "MAX_SUPPLY",
-      "NAME","PRICE_USD", "RANK", "SUPPLY", "SYMBOL","UPDATED_AT", "VOLUME_USD24_HR","VWAP24_HR")
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      """;
-  private static final int INSERT_BATCH_SIZE = 25;
+      INSERT INTO ASSET ("ASSET_ID", "RANK", "SYMBOL", "NAME", "SUPPLY", "MAX_SUPPLY", "MARKET_CAP_USD", "VOLUME_USD24_HR",
+               "PRICE_USD", "CHANGE_PERCENT24_HR", "VWAP24_HR", "EXPLORER", "CREATED_AT", "UPDATED_AT")
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+           """;
+
+  @Value("${jdbc.batch-insert-size}")
+  private int batchInsertSize;
 
   private final JdbcTemplate jdbcTemplate;
 
   @Override
-  public void savaBatch(List<Asset> assetList) {
-    Iterable<List<Asset>> partitions = Iterables.partition(assetList, INSERT_BATCH_SIZE);
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public void batchInsert(List<Asset> assetList) {
+    Iterable<List<Asset>> partitions = Iterables.partition(assetList, batchInsertSize);
     partitions.forEach(this::save);
   }
 
   private void save(List<Asset> assets) {
-    jdbcTemplate.batchUpdate(SQL_ASSET_INSERT, new BatchPreparedStatementSetter() {
-      @Override
-      public void setValues(PreparedStatement ps, int i) throws SQLException {
-        Asset assetResp = assets.get(i);
-        ps.setString(1, assetResp.getAssetId());
-        ps.setBigDecimal(2, assetResp.getChangePercent24Hr());
-        ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-        ps.setString(4, assetResp.getExplorer());
-        ps.setBigDecimal(5, assetResp.getMarketCapUsd());
-        ps.setBigDecimal(6, assetResp.getMaxSupply());
-        ps.setString(7, assetResp.getName());
-        ps.setBigDecimal(8, assetResp.getPriceUsd());
-        ps.setString(9, assetResp.getRank());
-        ps.setBigDecimal(10, assetResp.getSupply());
-        ps.setString(11, assetResp.getSymbol());
-        ps.setTimestamp(12, null);
-        ps.setBigDecimal(13, assetResp.getVolumeUsd24Hr());
-        ps.setBigDecimal(14, assetResp.getVwap24Hr());
-      }
+    jdbcTemplate.batchUpdate(SQL_ASSET_INSERT, new AssetBatchPreparedStatementSetter(assets));
+  }
 
-      @Override
-      public int getBatchSize() {
-        return assets.size();
-      }
+  private record AssetBatchPreparedStatementSetter(List<Asset> assets) implements BatchPreparedStatementSetter {
 
-    });
+    @Override
+    public void setValues(PreparedStatement ps, int i) throws SQLException {
+      Asset asset = assets.get(i);
+      ps.setString(1, asset.getAssetId());
+      ps.setString(2, asset.getRank());
+      ps.setString(3, asset.getSymbol());
+      ps.setString(4, asset.getName());
+      ps.setBigDecimal(5, asset.getSupply());
+      ps.setBigDecimal(6, asset.getMaxSupply());
+      ps.setBigDecimal(7, asset.getMarketCapUsd());
+      ps.setBigDecimal(8, asset.getVolumeUsd24Hr());
+      ps.setBigDecimal(9, asset.getPriceUsd());
+      ps.setBigDecimal(10, asset.getChangePercent24Hr());
+      ps.setBigDecimal(11, asset.getVwap24Hr());
+      ps.setString(12, asset.getExplorer());
+      ps.setTimestamp(13, Timestamp.valueOf(LocalDateTime.now()));
+      ps.setTimestamp(14, null);
+    }
+
+    @Override
+    public int getBatchSize() {
+      return assets.size();
+    }
   }
 }

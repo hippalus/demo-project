@@ -26,14 +26,14 @@ public class AssetServiceJdbcImpl implements AssetService {
   @Override
   public void deleteByName(String name) {
     if (!assetJdbcRepository.existsByName(name)) {
-      throw new DataNotFoundException(name + " could not be found!");
+      throw new DataNotFoundException("asset.data.not.found",name);
     }
     assetJdbcRepository.deleteByName(name);
   }
 
   @Override
   public void save(List<Asset> assetList) {
-    customAssetRepository.savaBatch(assetList);
+    customAssetRepository.batchInsert(assetList);
   }
 
   @Override

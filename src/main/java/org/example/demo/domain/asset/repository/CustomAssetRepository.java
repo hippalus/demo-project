@@ -5,6 +5,6 @@ import org.example.demo.domain.asset.model.Asset;
 
 public interface CustomAssetRepository {
 
-  void savaBatch(List<Asset> assetList);
+  void batchInsert(List<Asset> assetList);
 
 }

@@ -10,7 +10,7 @@ spring:
   mvc:
     throw-exception-if-no-handler-found: true
   datasource:
-    url: jdbc:h2:mem:demoprojectdb
+    url: jdbc:h2:mem:demoprojectdb-test
     username: root
     password: password
     driver-class-name: org.h2.Driver
@@ -22,9 +22,6 @@ spring:
       pool-name: demo-pool
       max-lifetime: 2000000
       connection-timeout: 30000
-      data-source-properties:
-        useConfigs: maxPerformance,fullDebug
-        rewriteBatchedStatements: true
   h2:
     console:
       enabled: true
@@ -34,6 +31,7 @@ spring:
       schema-locations: classpath:/schema.sql
 jdbc:
   batch-insert-size: 80
+
 server:
   port: 8080
 
@@ -58,9 +56,8 @@ coincap-client:
     exchanges:
       retry-attempts: 5
       retry-delay: 2000
-
 app:
   scheduled:
     fix-rate: 60000
     asset:
-      enabled: true
+      enabled: false

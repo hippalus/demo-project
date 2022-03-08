@@ -8,13 +8,13 @@ import org.example.demo.coincapclient.rest.response.AssetRecord;
 import org.example.demo.coincapclient.rest.response.AssetsResponse;
 import org.example.demo.domain.asset.model.Asset;
 import org.example.demo.domain.asset.service.AssetService;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("!test")
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "app.scheduled.asset.enabled", havingValue = "true")
 public class AssetPersistentTask {
 
   private static final int LIMIT = 100;
@@ -27,7 +27,7 @@ public class AssetPersistentTask {
     int offset = 1;
     while (true) {
       final AssetsRetrieveRequest request = prepareRequest(offset);
-      final AssetsResponse response = coinCap.assets().retrieve(request);
+      final var response = coinCap.assets().retrieve(request);
       if (response.data().isEmpty()) {
         break;
       }

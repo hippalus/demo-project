@@ -1,19 +1,20 @@
 package org.example.demo.coincapclient.rest.adapter;
 
 import org.assertj.core.api.Assertions;
-import org.example.demo.coincapclient.rest.response.RateResponse;
-import org.example.demo.coincapclient.rest.response.RatesResponse;
+import org.example.demo.IT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class RatesAdapterTest extends AbstractIntegrationTest {
+@IT
+class RatesAdapterIT {
 
   @Autowired
   private RatesAdapter ratesAdapter;
+
   @Test
   void shouldRetrieveRates() {
     //when:
-    final RatesResponse rates = ratesAdapter.retrieve();
+    final var rates = ratesAdapter.retrieve();
     //then:
     Assertions.assertThat(rates).isNotNull();
     Assertions.assertThat(rates.data()).isNotNull();
@@ -25,7 +26,7 @@ class RatesAdapterTest extends AbstractIntegrationTest {
     //given:
     final var id = "bitcoin";
     //when:
-    final RateResponse rate = ratesAdapter.retrieveById(id);
+    final var rate = ratesAdapter.retrieveById(id);
     //then:
     Assertions.assertThat(rate).isNotNull();
     Assertions.assertThat(rate.data()).isNotNull();
