@@ -9,7 +9,29 @@
 			"name": "Get Last N Assets",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/assets?lastN=5",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "lastN",
+							"value": "5"
+						}
+					]
+				}
 			},
 			"response": []
 		},
