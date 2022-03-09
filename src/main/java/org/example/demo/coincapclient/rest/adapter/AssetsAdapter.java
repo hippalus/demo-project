@@ -41,13 +41,13 @@ public class AssetsAdapter extends BaseAdapter {
   }
 
   @Recover
-  public AssetMarketsResponse retrieve(final CoinCapApiException e, final AssetsRetrieveRequest request) {
+  public AssetsResponse retrieve(final CoinCapApiException e, final AssetsRetrieveRequest request) {
     log.error("Couldn't connect to coincap api to do retrieve for {}", request, e);
     throw e;
   }
 
   @Recover
-  public AssetMarketsResponse retrieve(final Exception e, final AssetsRetrieveRequest request) {
+  public AssetsResponse retrieve(final Exception e, final AssetsRetrieveRequest request) {
     log.error("Couldn't connect to coincap api to do retrieve for {}", request, e);
     throw new CoinCapApiException(COINCAP_API_ASSETS_CLIENT_ERROR);
   }

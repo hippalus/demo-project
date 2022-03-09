@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo.common.exception.BusinessException;
 import org.example.demo.common.exception.DataNotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -15,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -85,6 +89,28 @@ public class RestExceptionHandler extends BaseController {
     log.debug("HttpRequestMethodNotSupportedException occurred", methodNotSupportedException);
     return createErrorResponseFromMessageSource("common.client.methodNotSupported",
         methodNotSupportedException.getMethod());
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public Response<ErrorResponse> handle(ConstraintViolationException exception) {
+    String errorMessage = exception.getConstraintViolations()
+        .stream()
+        .map(this::violationMessage)
+        .collect(Collectors.joining(" && "));
+    return respond(new ErrorResponse("22", errorMessage));
+  }
+
+  @NotNull
+  private String violationMessage(ConstraintViolation<?> violation) {
+    return violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": " + violation.getMessage();
+  }
+
+
+  @ExceptionHandler(MissingServletRequestParameterException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public Response<ErrorResponse> handle(MissingServletRequestParameterException exception) {
+    return respond(new ErrorResponse("23", exception.getMessage()));
   }
 
   private Response<ErrorResponse> createFieldErrorResponse(BindingResult bindingResult) {

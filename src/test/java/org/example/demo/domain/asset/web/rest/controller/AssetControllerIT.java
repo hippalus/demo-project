@@ -47,6 +47,52 @@ class AssetControllerIT extends AbstractRestIT {
     assertThat(responseEntity.getBody().data()).hasSize(2);
   }
 
+
+  @SuppressWarnings("rawtypes")
+  @Test
+  void shouldHandleWithErrorResponseWhenRetrieveLast_N_assetByInvalidParams() {
+    //given
+    final String path = "/api/v1/assets?lastN";
+
+    //when
+    ResponseEntity<Response> responseEntity = testRestTemplate.exchange(path, HttpMethod.GET,
+        new HttpEntity<>(createHttpHeaders()),
+        Response.class);
+
+    //then - assert response
+    assertThat(responseEntity).isNotNull().returns(HttpStatus.BAD_REQUEST, from(ResponseEntity::getStatusCode));
+
+    //then - assert data
+    assertThat(responseEntity.getBody()).isNotNull();
+    assertThat(responseEntity.getBody().errors()).isNotNull()
+        .returns("Required request parameter 'lastN' for method parameter type Integer is present but converted to null",
+            from(ErrorResponse::errorDescription))
+        .returns("23", from(ErrorResponse::errorCode));
+  }
+  
+  @SuppressWarnings("rawtypes")
+  @Test
+  void shouldHandleWithErrorResponseWhenRetrieveLast_N_assetByInvalidParams2() {
+    //given
+    final String path = "/api/v1/assets?lastN=-1";
+
+    //when
+    ResponseEntity<Response> responseEntity = testRestTemplate.exchange(path, HttpMethod.GET,
+        new HttpEntity<>(createHttpHeaders()),
+        Response.class);
+
+    //then - assert response
+    assertThat(responseEntity).isNotNull().returns(HttpStatus.BAD_REQUEST, from(ResponseEntity::getStatusCode));
+
+    //then - assert data
+    assertThat(responseEntity.getBody()).isNotNull();
+    assertThat(responseEntity.getBody().errors()).isNotNull()
+        .returns(
+            "org.example.demo.domain.asset.web.rest.controller.AssetController retrieveLastNAssets.size: must be greater than 0",
+            from(ErrorResponse::errorDescription))
+        .returns("22", from(ErrorResponse::errorCode));
+  }
+
   @Test
   void shouldDeleteAssetByName() {
     //given
@@ -67,7 +113,7 @@ class AssetControllerIT extends AbstractRestIT {
 
     //when
     var responseEntity = testRestTemplate.exchange(path, HttpMethod.DELETE,
-        new HttpEntity<>(createHttpHeaders()),Response.class);
+        new HttpEntity<>(createHttpHeaders()), Response.class);
 
     //then - assert response
     assertThat(responseEntity).isNotNull()

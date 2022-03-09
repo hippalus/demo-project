@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 import org.springframework.retry.annotation.EnableRetry;
 
-@EnableRetry
+@EnableRetry(proxyTargetClass = true)
 @EnableJdbcAuditing
 @SpringBootApplication
 public class DemoProjectApplication {
